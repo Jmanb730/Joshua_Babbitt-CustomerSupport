@@ -9,7 +9,7 @@ import jakarta.servlet.annotation.*;
 import java.util.*;
 import java.io.*;
 import java.util.Map;
-
+import java.lang.*;
 import static java.lang.System.out;
 
 @WebServlet(name = "customerSupport" , value="/customerSupport")
@@ -28,14 +28,12 @@ public class TicketServlet extends HttpServlet {
         switch(action) {
             case "createBlog" -> showPostForm(request, response);
             case "view" -> viewTicket(request, response);
+            case "create" -> createTicket(request,response);
             case "download" -> downloadAttachment(request, response);
             default -> listTickets(request, response); // this the list and any other
         }
 
     }
-
-
-
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -98,9 +96,15 @@ public class TicketServlet extends HttpServlet {
     }
 
     //ticket methods
-    public void createTicket(String n,String s,String b, ArrayList a){
-        Ticket t = new Ticket(n,s,b,a);
-        tickets.put(currentMaxIndex,t);
+    public void createTicket( HttpServletRequest request,HttpServletResponse response/*String n,String s,String b, ArrayList a*/)throws ServletException, IOException{
+        String n = request.getParameter("name");
+        String s = request.getParameter("subject");
+        String b = request.getParameter("body");
+        String ar = request.getParameter("attachments");
+        HashMap<Integer,Object> h = new HashMap<>();
+        //h = Arrays.asList(String.split(ar));
+        //Ticket t = new Ticket(n,s,b,a);
+        //tickets.put(currentMaxIndex,t);
         currentMaxIndex++;
     }
     public Ticket viewTicket(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
@@ -138,7 +142,9 @@ public class TicketServlet extends HttpServlet {
             response.sendRedirect("support?action=download&ticketID=" + idString);
         }
 
-        Attachment att = tick.getAttachment(Integer.parseInt(idString));
+        Object temp = tick.getAttachment(Integer.parseInt(idString));
+        Attachment att = (Attachment)temp;
+
         if (att == null) {
             response.sendRedirect("blog?action=view&blogId=" + idString);
             return;

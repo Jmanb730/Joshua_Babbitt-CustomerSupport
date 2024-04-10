@@ -1,12 +1,20 @@
-import java.util.ArrayList;
+import java.util.HashMap;
+
+class tClass<A>{
+    A obj;
+    tClass(A obj){this.obj = obj; }
+    public A getObj(){return  this.obj;}
+}
 public class Ticket {
 
     private String name;
     private String subject;
 
     private String body;
-    private ArrayList<Attachment> attachments;
-    public Ticket(String n,String s,String b, ArrayList<Attachment> a){
+    private HashMap<Integer,Object> attachments;
+
+    public Ticket(){}
+    public Ticket(String n,String s,String b, HashMap<Integer, Object> a){
         name = n;
         subject = s;
         body = b;
@@ -34,19 +42,19 @@ public class Ticket {
         body = b;
     }
 
-    public ArrayList getAttachments(){
+    public HashMap<Integer, Object> getAttachments(){
         return attachments;
     }
-    public void setAttachments(ArrayList a){
-        attachments = a;
+    public void setAttachments(HashMap h){
+        attachments = h;
     }
-    public void addAttachment(Attachment att){
-        attachments.add(att);
+    public void addAttachment(Integer i,Attachment att){
+        attachments.put(i,att);
     }
     public int getNumberOfAttachments(){
         return attachments.size();
     }
-    public Attachment getAttachment(int index){
+    public Object getAttachment(Integer index){
 
         return attachments.get(index);
     }

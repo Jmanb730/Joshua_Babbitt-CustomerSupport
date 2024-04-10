@@ -1,7 +1,7 @@
 public class Attachment {
 
     private String name = "";
-    private byte[] cotents;
+    private byte[] contents;
 
     public String getName(){
         return name;
@@ -12,10 +12,10 @@ public class Attachment {
     }
 
     public byte[] getContents(){
-        return  cotents;
+        return  contents;
     }
 
     public void setContents(byte[] con){
-        cotents = con;
+        contents = con;
     }
 }
