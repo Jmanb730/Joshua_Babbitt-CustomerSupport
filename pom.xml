@@ -17,6 +17,7 @@
         <junit.version>5.9.2</junit.version>
     </properties>
 
+
     <dependencies>
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -36,6 +37,15 @@
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/jakarta.servlet.jsp.jstl/jakarta.servlet.jsp.jstl-api -->
+        <dependency>
+            <groupId>jakarta.servlet.jsp.jstl</groupId>
+            <artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+
     </dependencies>
 
     <build>
