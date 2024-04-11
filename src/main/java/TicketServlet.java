@@ -43,44 +43,6 @@ public class TicketServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
-        //parameters
-        /*
-        String name = request.getParameter("name");
-        String email = request.getParameter("email");
-        String pnum = request.getParameter("pnum");
-        String city = request.getParameter("city");
-
-
-        //webpage
-        PrintWriter out = response.getWriter();
-        out.println("<html><body>");
-        out.println("<h2>Successfully signed up</h2>");
-
-
-        out.println("<!DOCTYPE html>"+
-                "<html lang=\"en\">" +
-                "<link rel=\"stylesheet\" href=\"Vizsla.css\"> " +
-                "<head>" +
-                "<meta charset=\"UTF-8\">" +
-                "<title>Email</title>"
-        );
-
-        out.println("<title>Email</title></head><body><h1>Email</h1>");
-        out.println("<nav>\n" +"    <a href=\"ticketForum.jsp\" class=\"button\">Home</a>\n" +
-                "    <a href=\"history.jsp\" class=\"button\">History</a>\n" +
-                "    <a href=\"care.jsp\" class=\"button\">Care</a>\n" +
-                "    <a href=\"email.jsp\" class=\"button\">Email</a>\n" +
-                "    <br>\n" +
-                "</nav>");
-
-        /*
-        out.println("Name:" + name);
-        out.println("Email:" + email);
-        out.println("Phone Number:" + pnum);
-        out.println("City:" + city);
-        */
-
-
     }
 
     private void showTicketForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
