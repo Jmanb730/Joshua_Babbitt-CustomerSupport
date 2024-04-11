@@ -20,6 +20,7 @@ import static java.lang.System.out;
 public class TicketServlet extends HttpServlet {
     Integer currentMaxIndex = 0;
     private Map<Integer, Ticket> tickets = new LinkedHashMap<>();
+
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
 
@@ -28,15 +29,16 @@ public class TicketServlet extends HttpServlet {
         if (action == null) {
             action = "createForum";
         }
-        switch(action) {
+        switch (action) {
             case "createForum" -> showTicketForm(request, response);
             case "viewTicket" -> viewTicket(request, response);
-            case "createTicket" -> createTicket(request,response);
+            case "createTicket" -> createTicket(request, response);
             case "downloadFile" -> downloadAttachment(request, response);
             default -> listTickets(request, response); // this the list and any other
         }
 
     }
+
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html");
@@ -81,15 +83,14 @@ public class TicketServlet extends HttpServlet {
 
     }
 
-    private void showTicketForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    private void showTicketForm(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         Integer id;
-        try{
+        try {
             id = Integer.parseInt(request.getParameter("ticketId"));
             Ticket t = getTicket(id);
 
-        }
-        catch (Exception e){
+        } catch (Exception e) {
 
         }
 
@@ -112,7 +113,7 @@ public class TicketServlet extends HttpServlet {
     }
 
     //ticket methods
-    public void createTicket( HttpServletRequest request,HttpServletResponse response/*String n,String s,String b, ArrayList a*/)throws ServletException, IOException{
+    public void createTicket(HttpServletRequest request, HttpServletResponse response/*String n,String s,String b, ArrayList a*/) throws ServletException, IOException {
 
         Ticket t = new Ticket();
         t.setName(request.getParameter("Name"));
@@ -131,14 +132,15 @@ public class TicketServlet extends HttpServlet {
         t.setImage(((request.getParameter("file1")));
         */
 
-        HashMap<Integer,Object> h = new HashMap<>();
+        HashMap<Integer, Object> h = new HashMap<>();
         //h = Arrays.asList(String.split(ar));
         //Ticket t = new Ticket(n,s,b,a);
-        tickets.put(currentMaxIndex,t);
+        tickets.put(currentMaxIndex, t);
         currentMaxIndex++;
     }
-    public void viewTicket(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
-        try{
+
+    public void viewTicket(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        try {
             String idString = request.getParameter("ticketId");
             Integer i = Integer.parseInt(idString);
             Ticket t = getTicket(i);
@@ -149,8 +151,7 @@ public class TicketServlet extends HttpServlet {
             out.println("<p>" + t.getBody() + "</p>");
             out.println("<a href=\"showTicketForum\">Return to support request page</a>");
             out.println("</body></html>");
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             out.println("<html><body>");
             out.println("<h1>Something is wrong with your request <h2>");
             out.println("<a href=\"showTicketForum\">Return to support request page</a>");
@@ -159,10 +160,12 @@ public class TicketServlet extends HttpServlet {
 
 
     }
-    public Ticket getTicket(Integer i){
+
+    public Ticket getTicket(Integer i) {
         return tickets.get(i);
     }
-    public void listTickets(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
+
+    public void listTickets(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         PrintWriter out = response.getWriter();
 
         out.println("<html><body><h2>Tickets</h2>");
@@ -171,8 +174,7 @@ public class TicketServlet extends HttpServlet {
 
         if (tickets.size() == 0) {
             out.println("There are no tickets yet");
-        }
-        else {
+        } else {
             for (int id : tickets.keySet()) {
                 Ticket t = tickets.get(id);
                 out.println("Ticket #" + id);
@@ -181,15 +183,15 @@ public class TicketServlet extends HttpServlet {
             }
         }
         out.println("</body></html>");
-        }
     }
 
+
     //Attachment methods
-    private void downloadAttachment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+    private void downloadAttachment(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
         String idString = request.getParameter("ticketID");
         Integer i = Integer.parseInt(idString);
-        Ticket tick = getTicket(i);
+        Ticket t = getTicket(i);
 
 
         String name = request.getParameter("attachment");
@@ -197,8 +199,8 @@ public class TicketServlet extends HttpServlet {
             response.sendRedirect("support?action=download&ticketID=" + idString);
         }
 
-        Object temp = tick.getAttachment(Integer.parseInt(idString));
-        Attachment att = (Attachment)temp;
+        Object temp = t.getAttachment(Integer.parseInt(idString));
+        Attachment att = (Attachment) temp;
 
         if (att == null) {
             response.sendRedirect("support?action=view&ticketId=" + idString);
@@ -212,7 +214,8 @@ public class TicketServlet extends HttpServlet {
         out.write(att.getContents());
     }
 
-    //public Attachment processAttachment(Attachment a){ return  a;}
+
+//public Attachment processAttachment(Attachment a){ return  a;}
 
     /*
     public Image processAttachment(Part file) throws IOException {
@@ -233,5 +236,5 @@ public class TicketServlet extends HttpServlet {
         return image;
     }
     */
-
+}
 

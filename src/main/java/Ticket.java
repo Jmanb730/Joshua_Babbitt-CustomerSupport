@@ -1,11 +1,6 @@
 import java.awt.*;
 import java.util.HashMap;
 
-class tClass<A>{
-    A obj;
-    tClass(A obj){this.obj = obj; }
-    public A getObj(){return  this.obj;}
-}
 public class Ticket {
 
     private String name;
