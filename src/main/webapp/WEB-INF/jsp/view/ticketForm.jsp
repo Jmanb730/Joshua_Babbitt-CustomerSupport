@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>Create a new blog</title>
+    <title>Create a Support Ticket</title>
 </head>
 <body>
 <h2>Create a Support Ticket</h2>
