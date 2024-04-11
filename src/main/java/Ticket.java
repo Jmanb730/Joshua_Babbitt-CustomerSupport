@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.util.HashMap;
 
 class tClass<A>{
@@ -13,6 +14,7 @@ public class Ticket {
     private String body;
     private HashMap<Integer,Object> attachments;
 
+    private Image image;
     public Ticket(){}
     public Ticket(String n,String s,String b, HashMap<Integer, Object> a){
         name = n;
@@ -45,6 +47,15 @@ public class Ticket {
     public HashMap<Integer, Object> getAttachments(){
         return attachments;
     }
+
+    public void setImage(Image i){
+        image = i;
+    }
+
+    public Image getImage() {
+        return image;
+    }
+
     public void setAttachments(HashMap h){
         attachments = h;
     }

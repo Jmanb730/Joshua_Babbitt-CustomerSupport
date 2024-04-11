@@ -6,7 +6,10 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 
+import java.awt.*;
+import java.awt.Image;
 import java.util.*;
+import java.util.LinkedHashMap;
 import java.io.*;
 import java.util.Map;
 import java.lang.*;
@@ -110,14 +113,28 @@ public class TicketServlet extends HttpServlet {
 
     //ticket methods
     public void createTicket( HttpServletRequest request,HttpServletResponse response/*String n,String s,String b, ArrayList a*/)throws ServletException, IOException{
-        String n = request.getParameter("name");
-        String s = request.getParameter("subject");
-        String b = request.getParameter("body");
-        String ar = request.getParameter("attachments");
+
+        Ticket t = new Ticket();
+        t.setName(request.getParameter("Name"));
+        t.setSubject(request.getParameter("subject"));
+        t.setBody(request.getParameter("body"));
+
+        /*
+        Part file = request.getPart("file1");
+        if (file != null) {
+            Image image = this.processAttachment(file);
+            if(image != null){
+                t.setImage(image);
+            }
+        }
+
+        t.setImage(((request.getParameter("file1")));
+        */
+
         HashMap<Integer,Object> h = new HashMap<>();
         //h = Arrays.asList(String.split(ar));
         //Ticket t = new Ticket(n,s,b,a);
-        //tickets.put(currentMaxIndex,t);
+        tickets.put(currentMaxIndex,t);
         currentMaxIndex++;
     }
     public void viewTicket(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException{
@@ -126,10 +143,18 @@ public class TicketServlet extends HttpServlet {
             Integer i = Integer.parseInt(idString);
             Ticket t = getTicket(i);
 
-            response.sendRedirect("support?action=viewTicket");
+            out.println("<html><body><h2>Ticket</h2>");
+            out.println("<h3>" + t.getName() + "</h3>");
+            out.println("<p>Date: " + t.getSubject() + "</p>");
+            out.println("<p>" + t.getBody() + "</p>");
+            out.println("<a href=\"showTicketForum\">Return to support request page</a>");
+            out.println("</body></html>");
         }
         catch (Exception e){
-
+            out.println("<html><body>");
+            out.println("<h1>Something is wrong with your request <h2>");
+            out.println("<a href=\"showTicketForum\">Return to support request page</a>");
+            out.println("</body></html>");
         }
 
 
@@ -141,20 +166,21 @@ public class TicketServlet extends HttpServlet {
         PrintWriter out = response.getWriter();
 
         out.println("<html><body><h2>Tickets</h2>");
-        out.println("<a href=\"blog?action=createTicket\">Create Ticket</a><br><br>");
+        out.println("<a href=\"support?action=createTicket\">Create Ticket</a><br><br>");
 
-        if(tickets.size() == 0){
-            out.println("No tickets");
+
+        if (tickets.size() == 0) {
+            out.println("There are no tickets yet");
         }
-        else{
-            for(int i = 0; i < currentMaxIndex; i++){
-                Ticket tick = tickets.get(i);
-                out.println("Ticket number: " + i);
-                /*
+        else {
+            for (int id : tickets.keySet()) {
+                Ticket t = tickets.get(id);
+                out.println("Ticket #" + id);
                 out.println(": <a href=\"blog?action=view&blogId=" + id + "\">");
-                out.println(blog.getTitle() + "</a><br>");
-                */
+                out.println(t.getName() + "</a><br>");
             }
+        }
+        out.println("</body></html>");
         }
     }
 
@@ -186,8 +212,26 @@ public class TicketServlet extends HttpServlet {
         out.write(att.getContents());
     }
 
-    public  void processAttachment(Attachment a){
-        
+    //public Attachment processAttachment(Attachment a){ return  a;}
+
+    /*
+    public Image processAttachment(Part file) throws IOException {
+        InputStream in = file.getInputStream();
+        ByteArrayOutputStream out = new ByteArrayOutputStream();
+
+        int read;
+        final byte[] bytes = new byte[1024];
+        while ((read = in.read(bytes)) != -1) {
+            out.write(bytes, 0, read);
+        }
+
+        //Image image = new Image();
+        Image image;
+        image.setName(file.getSubmittedFileName());
+        image.setContents(out.toByteArray());
+
+        return image;
     }
-}
+    */
+
 
